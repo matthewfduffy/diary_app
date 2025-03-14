@@ -1,0 +1,30 @@
+Learning Source: https://realpython.com/django-diary-project-python/
+
+python manage.py migrate
+
+# Start Local Server
+`$ python manage.py runserver`
+
+
+# Create an App
+
+`$ python manage.py startapp entries`
+
+Creates a new folder in project with predefined files. Only 3 of the files need to be touched:
+
+entries/__init__.py
+entries/admin.py  **
+entries/apps.py
+entries/models.py  **
+entries/tests.py
+entries/views.py  **
+
+At this point, Django doesn't know the app that was just created.
+To connect the `entries` app to the `diary` project, add the _configuration class_ to the beginning of the `INSTALLED_APPS` list in `diary/settings.py`
+
+
+# Register and Migrate Entry model
+in entries/admin.py
+
+`$ python manage.py makemigrations`
+`$ python manage.py migrate`
