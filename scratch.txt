@@ -21,3 +21,10 @@ entries/views.py  **
 
 At this point, Django doesn't know the app that was just created.
 To connect the `entries` app to the `diary` project, add the _configuration class_ to the beginning of the `INSTALLED_APPS` list in `diary/settings.py`
+
+
+# Register and Migrate Entry model
+in entries/admin.py
+
+`$ python manage.py makemigrations`
+`$ python manage.py migrate`
