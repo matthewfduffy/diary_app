@@ -36,7 +36,7 @@ class EntryUpdateView(SuccessMessageMixin, UpdateView):
     def get_success_url(self):
         return reverse_lazy(
             "entry-detail",
-            kwarks={"pk": self.object.pk}
+            kwargs={"pk": self.object.pk}
         )
 
 class EntryDeleteView(DeleteView):
