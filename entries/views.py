@@ -22,7 +22,7 @@ class EntryDetailView(DetailView):
 
 
 # SMessage Storage
-class EntryCreateView(SuccessMessageMixing, CreateView):
+class EntryCreateView(SuccessMessageMixin, CreateView):
     model = Entry
     fields = ["title", "content"]
     success_url = reverse_lazy("entry-list")
