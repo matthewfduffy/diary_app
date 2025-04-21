@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
@@ -11,24 +12,27 @@ from django.views.generic import (
 
 from .models import Entry
 
+class LockedView(LoginRequiredMixin):
+    login_url = "admin:login"
+
 # Read Views, No Form Handling
-class EntryListView(ListView):
+class EntryListView(LockedView, ListView):
     model = Entry
     # returns all entries ordered by PK in ASC order
     queryset = Entry.objects.all().order_by("-date_created")  
 
-class EntryDetailView(DetailView):
+class EntryDetailView(LockedView, DetailView):
     model = Entry
 
 
 # SMessage Storage
-class EntryCreateView(SuccessMessageMixin, CreateView):
+class EntryCreateView(LockedView, SuccessMessageMixin, CreateView):
     model = Entry
     fields = ["title", "content"]
     success_url = reverse_lazy("entry-list")
     success_message = "Entry created successfully."
 
-class EntryUpdateView(SuccessMessageMixin, UpdateView):
+class EntryUpdateView(LockedView, SuccessMessageMixin, UpdateView):
     model = Entry
     fields = ["title", "content"]
     success_message = "Entry successfully updated."
@@ -39,7 +43,7 @@ class EntryUpdateView(SuccessMessageMixin, UpdateView):
             kwargs={"pk": self.object.pk}
         )
 
-class EntryDeleteView(DeleteView):
+class EntryDeleteView(LockedView, SuccessMessageMixin, DeleteView):
     model = Entry
     success_url = reverse_lazy("entry-list")
     success_message = "Entry deleted successfully."
@@ -47,3 +51,5 @@ class EntryDeleteView(DeleteView):
     def delete(self, request, *args, **kwargs):
         message.success(self.request, self.success_message)
         return super().delete(request, *args, **kwargs)
+
+
